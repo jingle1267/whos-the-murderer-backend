@@ -1,21 +1,32 @@
 from django.db import models
 from django.utils import timezone
 
-class Category(models.Model):
-  category_name = models.CharField(max_length=255)
+class User(models.Model):
+  user_name = models.CharField(max_length=255)
+  email = models.EmailField()
 
   def __str__(self):
-    return self.category_name 
+    return self.user_name 
 
-class Post(models.Model):
-  category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
-  post_title = models.CharField(max_length=255)
-  post_body = models.TextField()
-  post_city = models.CharField(max_length=255)
-  price = models.DecimalField(max_digits=6, decimal_places=2)
-  image = models.CharField(max_length=255)
+class Game(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games')
+  is_won = models.BooleanField()
   created_at = models.DateTimeField(default=timezone.now)
 
   def __str__(self):
-    return f'{self.post_title} for ${self.price}'
+    return f'Game ID: {self.gameID} belongs to User {self.userID}'
 
+class Image(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
+  image_name = models.CharField(max_length=255, unique=True)
+  created_at = models.DateTimeField(default=timezone.now)
+
+  def __str__(self):
+    return f'User ID: {self.userID} - Image Name: {self.image_name}'
+
+class Clue(models.Model):
+  attribute = models.CharField(max_length=255)
+  clue_text = models.TextField()
+
+  def __str__(self):
+    return f'{self.attribute} - Clue: {self.clue_text}'
