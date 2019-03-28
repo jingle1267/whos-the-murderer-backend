@@ -19,7 +19,8 @@ class User(models.Model):
 #     return f'Game ID: {self.gameID} belongs to User {self.userID}'
 
 class Image(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
+  # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images', editable=False)
+  user_id = models.PositiveSmallIntegerField(default=1)
   image_name = models.CharField(max_length=255, unique=True)
   created_at = models.DateTimeField(default=timezone.now)
 
