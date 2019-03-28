@@ -1,0 +1,1 @@
+web: gunicorn guess_who_backend.wsgi
